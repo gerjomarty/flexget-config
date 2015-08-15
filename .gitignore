@@ -1,0 +1,6 @@
+anime-watching.yml
+tv-watching.yml
+secrets.yml
+
+*.sqlite
+flexget.log*
