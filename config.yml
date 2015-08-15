@@ -1,0 +1,52 @@
+secrets: secrets.yml
+templates:
+  global:
+    transmission:
+      host: '{{ secrets.transmission.host }}'
+      port: '{{ secrets.transmission.port }}'
+      username: '{{ secrets.transmission.username }}'
+      password: '{{ secrets.transmission.password }}'
+    verify_ssl_certificates: yes
+  anime_watching:
+    discover:
+      what:
+        - emit_series:
+            from_start: yes
+            backfill: yes
+      from:
+        - nyaa:
+            category: anime eng
+            filter: filter remakes
+      interval: 1 hour
+      ignore_estimations: yes
+    series:
+      settings:
+        all:
+          tracking: backfill
+          # Normal ID regexp matches anime CRC32s, so be more strict
+          # Matches e.g. "Title - 01 [12345678]", "Title.01.[12345678]",
+          # "Title_01_[12345678]", "Title - 01v2 [12345678]",
+          # "Title - 01.5 [12345678]"
+          id_regexp: '[ \._\-](\d+(?:\.\d+)?)[ \._\-v]'
+          identified_by: sequence
+          set:
+            path: '/media/Anime/#Watching/{{series_name}}'
+            content_filename: '{{series_name}} - {{series_id | pad(2)}}'
+  tv_watching:
+    rss: '{{ secrets.tv_watching.rss }}'
+    series:
+      settings:
+        all:
+          set:
+            main_file_only: yes
+            path: '/media/TV/#Watching/{{series_name}}'
+            content_filename: '{{series_name}} - {{series_id}}'
+
+tasks:
+  nyaa_anime:
+    template: anime_watching
+    include: anime-watching.yml
+  showrss_tv:
+    template: tv_watching
+    include: tv-watching.yml
+

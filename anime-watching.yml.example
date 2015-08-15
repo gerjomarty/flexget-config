@@ -1,0 +1,8 @@
+series:
+  all:
+    - Some Series:
+        from_group: Some Group
+    - Some Other Series:
+        from_group: Some Other Group
+        quality: 720p
+
