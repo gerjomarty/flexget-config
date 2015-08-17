@@ -3,7 +3,7 @@ templates:
   global:
     transmission:
       host: '{{ secrets.transmission.host }}'
-      port: '{{ secrets.transmission.port }}'
+      port: 9091
       username: '{{ secrets.transmission.username }}'
       password: '{{ secrets.transmission.password }}'
     verify_ssl_certificates: yes
@@ -17,7 +17,7 @@ templates:
         - nyaa:
             category: anime eng
             filter: filter remakes
-      interval: 1 hour
+      interval: 15 minutes
       ignore_estimations: yes
     series:
       settings:
