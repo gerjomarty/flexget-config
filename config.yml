@@ -6,6 +6,7 @@ templates:
       port: 9091
       username: '{{ secrets.transmission.username }}'
       password: '{{ secrets.transmission.password }}'
+      honourlimits: yes
     verify_ssl_certificates: yes
   anime_watching:
     discover:
@@ -39,9 +40,14 @@ templates:
         all:
           set:
             main_file_only: yes
+            rename_like_files: yes
             path: '/media/TV/#Watching/{{series_name}}'
             content_filename: '{{series_name}} - {{series_id}}'
-
+            skip_files:
+              - '*.nfo'
+              - '*.sfv'
+              - '*[sS]ample*'
+              - '*.txt'
 tasks:
   nyaa_anime:
     template: anime_watching
